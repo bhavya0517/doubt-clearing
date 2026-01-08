@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Faculty - Doubt Portal</title>
+    <style>
+        body { font-family: Arial; background: #fdfefe; padding: 20px; }
+        .box { background: #fff; padding: 20px; margin-bottom: 20px; }
+        input, button { width: 100%; margin-top: 10px; padding: 8px; }
+        button { background: #2980b9; color: white; border: none; }
+    </style>
+</head>
+<body>
+
+<h2>Faculty Doubt Clearing Portal</h2>
+
+<div class="box" id="questions"></div>
+
+<script>
+    let questions = JSON.parse(localStorage.getItem("questions")) || [];
+
+    function submitAnswer(index) {
+        let ans = document.getElementById("ans" + index).value;
+        questions[index].answer = ans;
+        localStorage.setItem("questions", JSON.stringify(questions));
+        loadQuestions();
+    }
+
+    function loadQuestions() {
+        let html = "";
+        questions.forEach((q, i) => {
+            html += `
+                <p>
+                <b>Subject:</b> ${q.subject}<br>
+                <b>Question:</b> ${q.question}<br>
+                <input id="ans${i}" placeholder="Enter answer" value="${q.answer}">
+                <button onclick="submitAnswer(${i})">Submit Answer</button>
+                </p>
+                <hr>`;
+        });
+        document.getElementById("questions").innerHTML = html;
+    }
+
+    loadQuestions();
+</script>
+
+<a href="index.html">Go to Student Page</a>
+
+</body>
+</html>
